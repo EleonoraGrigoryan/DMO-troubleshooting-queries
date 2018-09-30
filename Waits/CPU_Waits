@@ -1,6 +1,5 @@
 --TSQL
-
--- Find out CPU pressure?
+-- Find out CPU pressure
 
 -- Find wait time of SOS_SCHEDULER_YIELD wait type
 select 
