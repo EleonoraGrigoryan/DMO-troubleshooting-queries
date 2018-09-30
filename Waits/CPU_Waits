@@ -27,3 +27,5 @@ avg(runnable_tasks_count) as [Avg Wait Task]
 from sys.dm_os_schedulers
 where scheduler_id < 255 -- < 1048576 
 and status = 'VISIBLE ONLINE'  --map to online in affinity mask processors
+
+-- If after tunning queries runnable_tasks_count column is greater than 0 than CPU resource is not enough 
