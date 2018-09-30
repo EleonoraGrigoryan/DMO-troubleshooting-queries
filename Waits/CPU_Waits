@@ -1,0 +1,30 @@
+--TSQL
+
+-- Find out CPU pressure?
+
+-- Find wait time of SOS_SCHEDULER_YIELD wait type
+select 
+    dows.wait_type,
+    sum(dows.wait_time_ms / 1000) as [wait_time_s]
+from sys.dm_os_wait_stats as dows
+where
+    dows.wait_type not in
+    ( 
+        'SLEEP_TASK', 'BROKER_TASK_STOP',
+        'SQLTRACE_BUFFER_FLUSH', 'CLR_AUTO_EVENT',
+        'CLR_MANUAL_EVENT', 'LAZYWRITER_SLEEP' 
+    )
+    and wait_type like 'SOS_SCHEDULER_YIELD'
+group by 
+    dows.wait_type
+order by 
+    sum(dows.wait_time_ms) desc;
+
+-- Continue investigationg using PerfMon or Profiler if wait time is excessive
+
+-- Select average current tasks in online affinity mask processors.
+select avg(current_tasks_count) as [Avg Current Task],
+avg(runnable_tasks_count) as [Avg Wait Task]
+from sys.dm_os_schedulers
+where scheduler_id < 255 -- < 1048576 
+and status = 'VISIBLE ONLINE'  --map to online in affinity mask processors
