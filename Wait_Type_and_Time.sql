@@ -1,6 +1,6 @@
 -- TSQL
 
--- Shows all wait types and their occurances in the server since the last server start
+-- Shows all wait types and time in ms in the server since the last server start
 
 select 
     dows.wait_type,
