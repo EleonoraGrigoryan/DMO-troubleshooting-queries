@@ -1,0 +1,14 @@
+--TSQL
+
+--Last query run by a particular program
+
+select dm_dec.client_net_address,
+dm_des.host_name,
+dm_dest.text
+from sys.dm_exec_sessions dm_des
+inner join sys.dm_exec_connections dm_dec
+on dm_des.session_id = dm_dec.session_id
+cross apply sys.dm_exec_sql_text(dm_dec.most_recent_sql_handle) as dm_dest
+--where dm_des.program_name like 'Microsoft SQL Server Management Studio%'
+order by dm_des.program_name,
+dm_dec.client_net_address
