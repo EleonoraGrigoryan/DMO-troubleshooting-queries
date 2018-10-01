@@ -1,0 +1,16 @@
+-- TSQL
+-- Find the sessions with not committed and still running transactions
+
+select dm_des.session_id,
+dm_des.login_time,
+dm_des.last_request_start_time,
+dm_des.last_request_end_time,
+dm_des.host_name,
+dm_des.login_name
+from sys.dm_exec_sessions dm_des
+inner join sys.dm_tran_session_transactions dm_dtst
+on dm_des.session_id = dm_dtst.session_id
+left join sys.dm_exec_requests dm_der
+on dm_des.session_id = dm_der.session_id
+where dm_der.session_id IS NULL
+order by dm_des.session_id
