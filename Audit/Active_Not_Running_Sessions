@@ -1,0 +1,28 @@
+-- TSQL
+-- Active current sessions with not 'Running' status
+-- Sleeping, Dormant, Preconnect
+
+declare @days_old smallint
+set @days_old = 5
+
+select dm_des.session_id ,
+dm_des.login_time ,
+dm_des.last_request_start_time ,
+dm_des.last_request_end_time ,
+dm_des.[status] ,
+dm_des.[program_name] ,
+dm_des.memory_usage ,
+dm_des.total_scheduled_time ,
+dm_des.total_elapsed_time ,
+dm_des.reads ,
+dm_des.writes ,
+dm_des.logical_reads ,
+dm_des.row_count ,
+dm_des.is_user_process
+from sys.dm_exec_sessions dm_des
+inner join sys.dm_tran_session_transactions dm_dtst
+on dm_des.session_id = dm_dtst.session_id
+where dm_des.is_user_process = 1
+and datediff(dd, dm_des.last_request_end_time, getdate()) > @days_old
+and dm_des.status != 'Running'
+order by dm_des.last_request_end_time
