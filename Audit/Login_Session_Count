@@ -1,0 +1,9 @@
+-- TSQL
+
+-- Session count for each login
+
+select login_name,
+count(session_id) as [session_count]
+from sys.dm_exec_sessions as dm_des
+--where is_user_process = 1
+group by login_name
