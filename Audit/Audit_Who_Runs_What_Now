@@ -1,0 +1,22 @@
+-- TSQL
+
+-- Audit the activity right now
+-- Login, Program, Sql Text, Host name, Client name, and more
+
+select dm_dest.text as [SQL Text],
+dm_des.login_time,
+dm_des.login_name,
+dm_des.[program_name],
+dm_des.[host_name],
+dm_der.session_id,
+dm_dec.client_net_address,
+dm_der.status,
+dm_der.command,
+db_name(dm_der.database_id) as DatabaseName
+from sys.dm_exec_requests dm_der
+inner join sys.dm_exec_connections dm_dec
+on dm_der.session_id = dm_dec.session_id
+inner join sys.dm_exec_sessions dm_des
+on dm_des.session_id = dm_der.session_id
+cross apply sys.dm_exec_sql_text(sql_handle) as dm_dest
+where dm_des.is_user_process = 1
