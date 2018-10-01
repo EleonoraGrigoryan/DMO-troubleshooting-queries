@@ -1,5 +1,5 @@
 -- TSQL
--- Active current sessions with not 'Running' status
+-- Open, inactive current sessions with not 'Running' status
 -- Sleeping, Dormant, Preconnect
 
 declare @days_old smallint
