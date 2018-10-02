@@ -17,7 +17,7 @@ create table dbo.IndexUsageStats
 	last_user_scan datetime NULL,
 	last_user_lookup datetime NULL,
 	last_user_update datetime NULL,
-	status_date datetime NOT NULL,
+	review_date datetime NOT NULL,
 	[database_name] sysname NOT NULL
 )
 
