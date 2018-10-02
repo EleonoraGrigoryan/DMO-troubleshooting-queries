@@ -8,7 +8,7 @@ create table dbo.NotUsedIndexes
 (
 	index_name sysname NULL ,
 	object_name sysname NOT NULL,
-	reviewed_date datetime NOT NULL,
+	review_date datetime NOT NULL,
 	database_name sysname NOT NULL
 )
 
@@ -17,7 +17,7 @@ insert into dbo.NotUsedIndexes
 select 
 	si.name as index_name,
 	so.name as object_name,
-	getdate() as reviewed_date,
+	getdate() as review_date,
 	db_name()
 from sys.indexes si
 inner join sys.all_objects so on so.object_id = si.object_id
