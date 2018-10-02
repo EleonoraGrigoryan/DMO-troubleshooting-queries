@@ -1,0 +1,14 @@
+-- TSQL
+-- Shows sessions which have queries that are waiting for memory grant, also provides the memory requested by the execution plan
+
+select 
+dm_des.session_id,
+dm_des.login_name,
+dm_des.host_name,
+dm_des.program_name,
+dm_deqmg.requested_memory_kb,
+datediff(n, dm_deqmg.request_time, getdate()) as [wait_time_mins]
+from sys.dm_exec_query_memory_grants as dm_deqmg
+inner join sys.dm_exec_sessions as dm_des on dm_deqmg.session_id = dm_des.session_id
+where dm_deqmg.grant_time is null
+order by dm_deqmg.request_time
