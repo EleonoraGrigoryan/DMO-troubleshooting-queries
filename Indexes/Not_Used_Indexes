@@ -1,0 +1,30 @@
+-- TSQL
+
+-- Script shows all the indexes that are not used, saves results in a NotUsedIndexes table for future investigation.
+-- Suggested to run several consecutive days
+
+if object_id('dbo.NotUsedIndexes') is null
+create table dbo.NotUsedIndexes
+(
+	index_name sysname NULL ,
+	object_name sysname NOT NULL,
+	reviewed_date datetime NOT NULL,
+	database_name sysname NOT NULL
+)
+
+insert into dbo.NotUsedIndexes
+
+select 
+	si.name as index_name,
+	so.name as object_name,
+	getdate() as reviewed_date,
+	db_name()
+from sys.indexes si
+inner join sys.all_objects so on so.object_id = si.object_id
+where si.index_id NOT IN
+  (select index_id from sys.dm_db_index_usage_stats dm_ddius
+  where si.object_id = dm_ddius.object_id
+  AND si.index_id = dm_ddius.index_id) 
+AND so.is_ms_shipped <> 1
+
+-- select * from NotUsedIndexes
