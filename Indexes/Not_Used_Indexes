@@ -27,4 +27,7 @@ where si.index_id NOT IN
   AND si.index_id = dm_ddius.index_id) 
 AND so.is_ms_shipped <> 1
 
+-- Remove comment to view results
 -- select * from NotUsedIndexes
+
+
