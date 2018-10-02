@@ -1,0 +1,49 @@
+-- TSQL
+
+-- Demonstrates index usage for the database where query is running. Results are stored in IndexUsageStats table for future investigations.
+-- Helps determine truly useful indexes
+-- Suggested to run severeal consecutive days
+
+if object_id('dbo.IndexUsageStats') is null
+create table dbo.IndexUsageStats
+(
+	index_name sysname NULL,
+	[object_name] sysname NOT NULL,
+	user_seeks bigint NOT NULL,
+	user_scans bigint NOT NULL,
+	user_lookups bigint NOT NULL,
+	user_updates bigint NOT NULL,
+	last_user_seek datetime NULL,
+	last_user_scan datetime NULL,
+	last_user_lookup datetime NULL,
+	last_user_update datetime NULL,
+	status_date datetime NOT NULL,
+	[database_name] sysname NOT NULL
+)
+
+insert into dbo.IndexUsageStats
+
+select 
+	si.[name] as index_name,
+	so.[name],
+	dm_ddius.user_seeks,
+	dm_ddius.user_scans,
+	dm_ddius.user_lookups,
+	dm_ddius.user_updates,
+	dm_ddius.last_user_seek,
+	dm_ddius.last_user_scan,
+	dm_ddius.last_user_lookup,
+	dm_ddius.last_user_update,
+	getdate(),
+	sd.name
+from sys.dm_db_index_usage_stats as dm_ddius
+inner join sys.indexes as si on dm_ddius.object_id = si.object_id and dm_ddius.index_id = si.index_id
+inner join sys.all_objects  as so on so.object_id = si.object_id
+inner join sys.databases as sd on sd.database_id = dm_ddius.database_id
+where is_ms_shipped <> 1
+and dm_ddius.database_id = db_id()
+ 
+ -- Remove comment to view results
+ -- select * from dbo.IndexUsageStats
+ 
+ 
