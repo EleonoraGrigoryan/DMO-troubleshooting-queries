@@ -1,0 +1,12 @@
+
+
+
+
+
+
+--------------------------------------------------------
+-- Finds the query plan of the most recent cashed batch
+
+select plan_handle, dm_detqp.query_plan
+from sys.dm_exec_query_stats
+cross apply sys.dm_exec_query_plan(plan_handle) as dm_detqp
