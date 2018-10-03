@@ -5,6 +5,7 @@ Repository contains Transact SQL scripts, mostly using Dynamic Management Object
 - [x] Audit client applications, logins, and connections/sessions
 - [x] View wait types and resource utilization for each type 
 - [x] Identify most used/not used indexes and their statistics 
+- [x] Get SQL text and Query Plans from cashed queries
 - [x] and much more
 
 Each script is described by a comment at the top of its file.
