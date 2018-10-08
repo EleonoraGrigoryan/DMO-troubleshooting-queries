@@ -1,0 +1,30 @@
+-- Script shows IO statistics from sys.dm_io_virtual_file_stats DMO joined with sys.master_files catalog view. Gruops by databases and 
+-- file types(log, data). Shows IO read, write, total, stall options for each database file on the server.
+
+with iofordbs
+as
+(
+	select db_name(dm_vfs.database_id) as DB_Name,
+	case when smf.type = 1 then 'LOG_FILE' else 'DATA_FILE' end as DB_File_Type,
+	sum(dm_vfs.num_of_bytes_written) as IO_Write,
+	sum(dm_vfs.num_of_bytes_read) as IO_Read,
+	sum(dm_vfs.num_of_bytes_read + dm_vfs.num_of_bytes_written) as IO_Total,
+	sum(dm_vfs.io_stall) as IO_Stall
+	from sys.dm_io_virtual_file_stats(NULL,NULL) as dm_vfs
+join sys.master_files as smf on dm_vfs.database_id = smf.database_id
+and dm_vfs.file_id = smf.file_id
+group by db_name(dm_vfs.database_id), smf.type
+)
+
+select row_number() over(order by io_stall desc) as Rownumber,
+DB_Name, DB_File_Type, 
+cast(1.0 * IO_Read / (1024*1024) as decimal(12,2) ) as IO_Read_MB,
+
+cast(1.0 * IO_Write / (1024*1024) as decimal(12,2) ) as IO_Write_MB,
+
+cast(1. * IO_Total / (1024*1024) as decimal(12,2) ) as IO_Total_MB,
+
+cast(IO_Stall / 1000. as decimal(12,2) ) as IO_Stall_Seconds,
+cast(100 * IO_Stall / sum(IO_Stall) over() as decimal(10,2)) as IO_Stall_Pct
+from iofordbs
+order by /*db_name,*/ IO_Stall_Seconds desc
