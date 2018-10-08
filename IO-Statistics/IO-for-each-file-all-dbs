@@ -1,5 +1,5 @@
 -- Script shows IO statistics from sys.dm_io_virtual_file_stats DMO joined with sys.master_files catalog view. Gruops by databases and 
--- file types(log, data). Shows IO read, write, total, stall options for each database file on the server.
+-- file types(log, data). Shows IO read, write, total, stall stats in MBs for each database file on the server.
 
 with iofordbs
 as
