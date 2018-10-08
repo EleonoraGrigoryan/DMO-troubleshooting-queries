@@ -1,4 +1,4 @@
-# DMO-troubleshooting-queries
+# DMO Troubleshooting Queries
 Repository contains Transact SQL scripts, mostly using Dynamic Management Objects with catalog views for troubleshooting MS SQL Server.
 
 # What's Available
