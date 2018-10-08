@@ -1,6 +1,7 @@
 --TSQL
 
--- query run by a particular program
+-- queries run by a particular program 
+-- in a session*
 
 select dm_dec.client_net_address,
 dm_des.host_name,
