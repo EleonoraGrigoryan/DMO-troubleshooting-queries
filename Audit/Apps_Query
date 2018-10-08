@@ -1,6 +1,6 @@
 --TSQL
 
---Last query run by a particular program
+-- query run by a particular program
 
 select dm_dec.client_net_address,
 dm_des.host_name,
