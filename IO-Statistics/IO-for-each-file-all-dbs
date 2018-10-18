@@ -1,4 +1,4 @@
--- Script shows IO statistics from sys.dm_io_virtual_file_stats DMO joined with sys.master_files catalog view. Gruops by databases and 
+-- Script shows IO statistics from sys.dm_io_virtual_file_stats DMO joined with sys.master_files catalog view. Groups by databases and 
 -- file types(log, data). Shows IO read, write, total read and write, stalls(the time users waited for IO operation on the file) stats 
 -- in MBs for each database file on the server.
 
