@@ -1,0 +1,12 @@
+-- Top most [number=2] used plans with usecount, query plan, text, and so on
+
+SELECT TOP 2 WITH TIES
+decp.usecounts ,
+decp.cacheobjtype ,
+decp.objtype ,
+deqp.query_plan ,
+dest.text
+FROM sys.dm_exec_cached_plans decp
+CROSS APPLY sys.dm_exec_query_plan(decp.plan_handle) AS deqp
+CROSS APPLY sys.dm_exec_sql_text(decp.plan_handle) AS dest
+ORDER BY usecounts DESC ;
