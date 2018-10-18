@@ -7,6 +7,7 @@ Repository contains Transact SQL scripts, mostly using Dynamic Management Object
 - [x] Identify most used/not used indexes and their statistics 
 - [x] Get SQL text and Query Plans from cashed queries
 - [x] View IO statistics on server
+- [x] Troubleshoot Windows Failover Cluster
 - [x] and much more
 
 Each script is described by a comment at the top of its file.
