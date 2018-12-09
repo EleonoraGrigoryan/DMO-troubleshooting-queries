@@ -1,0 +1,24 @@
+-- Script to show wait type as asscociated information such as time, session id, coplitation percent and much more
+
+select
+  w.session_id,
+  -- 1min = 60.000 ms
+  w.wait_duration_ms / 60000 as [dur_min],
+  w.wait_type,
+  cast(r.cpu_time/ 60000 as decimal)  as [cpu_time],
+  w.blocking_session_id,
+  s.[host_name],
+  r.command,
+  r.percent_complete,
+  r.total_elapsed_time,
+  r.reads,
+  r.writes,
+  r.logical_reads,
+  r.row_count
+from
+  sys.dm_os_waiting_tasks w
+  inner join sys.dm_exec_sessions s
+    on w.session_id = s.session_id
+  inner join sys.dm_exec_requests r
+    on s.session_id = r.session_id
+  order by w.wait_duration_ms desc
