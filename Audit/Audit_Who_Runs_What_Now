@@ -20,3 +20,5 @@ inner join sys.dm_exec_sessions dm_des
 on dm_des.session_id = dm_der.session_id
 cross apply sys.dm_exec_sql_text(sql_handle) as dm_dest
 where dm_des.is_user_process = 1
+
+--testing
