@@ -1,6 +1,0 @@
-﻿SET QUOTED_IDENTIFIER, ANSI_NULLS ON
-GO
-CREATE PROCEDURE [dbo].[ayuyuy]
-  AS 
-  SELECT * FROM sys.databases d
-GO
