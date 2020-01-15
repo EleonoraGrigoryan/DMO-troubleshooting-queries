@@ -13,5 +13,5 @@ Repository contains Transact SQL scripts, mostly using Dynamic Management Object
 Each script is described by a comment at the top of its file.
 
 ----
-MIT License <br>
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
